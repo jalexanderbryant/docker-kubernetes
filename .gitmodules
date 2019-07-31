@@ -1,0 +1,9 @@
+[submodule "frontend/docker-react"]
+	path = frontend/docker-react
+	url = git@github.com:jalexanderbryant/docker-react.git
+[submodule "docker-react"]
+	path = docker-react
+	url = git@github.com:jalexanderbryant/docker-react.git
+[submodule "complex/docker-complex"]
+	path = complex/docker-complex
+	url = git@github.com:jalexanderbryant/docker-complex.git

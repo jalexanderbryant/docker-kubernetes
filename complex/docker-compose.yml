@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+    postgres:
+        image: 'postgres:latest'
+
+    redis:
+        image: 'redis:latest'
+
+    nginx: # Want this service to always run
+        restart: 'always' # Routes all traffic for the app; critical that it
+                        # always restarts
+        build:
+            dockerfile: Dockerfile.dev
+            context: ./nginx
+        ports:
+            - '3050:80'
+
+
+    api:
+        build:
+            dockerfile: Dockerfile.dev
+            context: ./server # Specify the directory to build this container
+        volumes:
+            - /app/node_modules
+            - ./server:/app
+        environment:
+            - REDIS_HOST=redis
+            - REDIS_PORT=6379 # Standard; Can be found in Redis image docs
+            - PGUSER=postgres
+            - PGHOST=postgres
+            - PGDATABASE=postgres
+            - PGPASSWORD=postgres_password
+            - PGPORT=5432
+        depends_on:
+            - postgres
+
+    client:
+        build:
+            dockerfile: Dockerfile.dev
+            context: ./client
+        volumes:
+            - /app/node_modules
+            - ./client:/app
+
+    worker:
+        build:
+            dockerfile: Dockerfile.dev
+            context: ./worker
+        volumes:
+            - /app/node_modules
+            - ./worker:/app
+        environment:
+            - REDIS_HOST=redis
+            - REDIS_PORT=6379
+
+
