@@ -1,3 +1,0 @@
-[submodule "complex/complex"]
-	path = complex/complex
-	url = git@github.com:jalexanderbryant/docker-complex.git
